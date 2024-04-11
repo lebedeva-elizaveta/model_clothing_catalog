@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Обновление модели одежды</h2>
+
+    <form method="post" action="{{ url_for('update_model_clothing', model_id=clothing.id) }}">
+        <div class="form-group">
+            <label for="new_name">Новое название:</label>
+            <input type="text" class="form-control" id="new_name" name="new_name" value="{{ clothing.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_material_consumption">Новый расход материала:</label>
+            <input type="text" class="form-control" id="new_material_consumption" name="new_material_consumption" value="{{ clothing.material_consumption }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_description">Новое описание:</label>
+            <textarea class="form-control" id="new_description" name="new_description" rows="3" required>{{ clothing.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="new_photo_name">Новое название фото:</label>
+            <input type="text" class="form-control" id="new_photo_name" name="new_photo_name" value="{{ clothing.photos[0].name if clothing.photos else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="care_instructions">Инструкция по уходу:</label>
+            <textarea class="form-control" id="care_instructions" name="care_instructions" rows="3" required>{{ clothing.additional_info.care_instructions if clothing.additional_info else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="materials">Материал:</label>
+            <input type="text" class="form-control" id="materials" name="materials" value="{{ clothing.additional_info.materials if clothing.additional_info else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cost">Цена:</label>
+            <input type="text" class="form-control" id="cost" name="cost" value="{{ clothing.additional_info.cost if clothing.additional_info else '' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Обновить</button>
+    </form>
+{% endblock %}

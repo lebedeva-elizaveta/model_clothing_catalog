@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Create Model Pattern{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4">Добавление связи</h2>
+
+        <form method="post" action="{{ url_for('create_model_pattern_route') }}" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label>ID модели одежды:
+            <input type="text" name="model_clothing_id" required>
+                </label>
+                <div class="invalid-feedback">
+                    Пожалуйста, введите ID модели одежды.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>ID выкройки:
+            <input type="text" name="pattern_id" required>
+        </label>
+                <div class="invalid-feedback">
+                    Пожалуйста, введите ID выкройки.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Добавить связь</button>
+        </form>
+
+        <a href="{{ url_for('model_pattern') }}" class="mt-3 d-block">Вернуться к списку связей</a>
+    </div>
+{% endblock %}

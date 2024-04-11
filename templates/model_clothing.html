@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Список моделей одежды</h2>
+
+
+<form method="get" action="{{ url_for('model_clothing') }}" class="mb-3">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="nameFilter">Название:</label>
+            <select class="form-control" id="nameFilter" name="name">
+                <option value="">Все названия</option>
+                {% for opt in name_options %}
+                    <option value="{{ opt }}">{{ opt }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="materialFilter">Материал:</label>
+            <select class="form-control" id="materialFilter" name="material">
+                <option value="">Любой материал</option>
+                {% for material in materials_options %}
+                    <option value="{{ material }}">{{ material }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="minCostFilter">Цена от:</label>
+            <input type="number" class="form-control" id="minCostFilter" name="min_cost"
+                   value="{{ request.args.get('Min Cost', '') }}" placeholder="От">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="maxCostFilter">Цена до:</label>
+            <input type="number" class="form-control" id="maxCostFilter" name="max_cost"
+                   value="{{ request.args.get('Max Cost', '') }}" placeholder="До">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Расход материала</th>
+                <th>Описание</th>
+                <th>Фото</th>
+                <th>Дополнительная информация</th>
+            </tr>
+        </thead>
+
+<tbody>
+    {% for model in models.items %}
+        <tr>
+            <td>{{ model.id }}</td>
+            <td>{{ model.name }}</td>
+            <td>{{ model.material_consumption }}</td>
+            <td>{{ model.description }}</td>
+            <td>{{ model.photos[0].name }}</td>
+            <td>
+                <ul>
+                    <li><strong>Инструкция:</strong> {{ model.additional_info.care_instructions }}</li>
+                    <li><strong>Материал:</strong> {{ model.additional_info.materials }}</li>
+                    <li><strong>Цена:</strong> {{ model.additional_info.cost }}</li>
+                </ul>
+            </td>
+            <td>
+                <!-- Добавление ссылок на обновление и удаление для каждой модели -->
+                <a href="{{ url_for('update_model_clothing', model_id=model.id) }}" class="btn btn-warning btn-sm">Обновить</a>
+                <a href="{{ url_for('delete_model_clothing_route', model_id=model.id) }}" class="btn btn-danger btn-sm">Удалить</a>
+
+            </td>
+        </tr>
+    {% endfor %}
+<tr>
+    <td colspan="7">
+        <a href="{{ url_for('add_model_clothing') }}" class="btn btn-success">Добавить новую модель</a>
+    </td>
+</tr>
+</tbody>
+    </table>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% for num in models.iter_pages() %}
+            {% if num %}
+                <li class="page-item {% if num == models.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('model_clothing', page=num, name=request.args.get('name', ''),
+                    material=request.args.get('material', ''), min_cost=request.args.get('min_cost', ''),
+                    max_cost=request.args.get('max_cost', '')) }}">{{ num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Обновление выкройки</h2>
+  <form method="post" action="{{ url_for('update_pattern', pattern_id=pattern_id) }}">
+    <div class="form-group">
+      <label for="new_name">Новое название:</label>
+      <input type="text" id="new_name" name="new_name" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="new_sizes">Новые размеры:</label>
+      <input type="text" id="new_sizes" name="new_sizes" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="new_photo">Новое фото:</label>
+      <input type="text" id="new_photo" name="new_photo" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Обновить</button>
+  </form>
+{% endblock %}

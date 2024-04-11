@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}List of Patterns{% endblock %}
+
+{% block content %}
+    <h2>Список связей</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID модели</th>
+                <th>ID выкройки</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pattern_info in patterns.items %}
+                <tr>
+                    <td>{{ pattern_info.model_clothing_id }}</td>
+                    <td>{{ pattern_info.pattern_id }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+    <td colspan="7">
+        <a href="{{ url_for('create_model_pattern_route') }}" class="btn btn-success">Добавить связь</a>
+    </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% for num in patterns.iter_pages() %}
+                {% if num %}
+                    <li class="page-item {% if num == patterns.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('model_pattern', page=num) }}">{{ num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

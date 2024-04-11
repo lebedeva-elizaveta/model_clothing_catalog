@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Удаление модели одежды</h2>
+  <p>Вы уверены, что хотите удалить модель одежды? "{{ model_clothing.name }}"?</p>
+
+  <form method="post" action="{{ url_for('delete_model_clothing_route', model_id=model_clothing.id) }}">
+    <button type="submit" class="btn btn-danger">Удалить</button>
+  </form>
+
+  <a href="{{ url_for('model_clothing') }}" class="btn btn-secondary">Отмена</a>
+{% endblock %}

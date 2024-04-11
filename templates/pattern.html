@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Список выкроек</h2>
+
+<form method="get" class="mb-3">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nameFilter">Название:</label>
+            <select class="form-control" id="nameFilter" name="name">
+                <option value="">Все названия</option>
+                {% for opt in name_options %}
+                    <option value="{{ opt }}">{{ opt }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="sizeFilter">Размер:</label>
+            <select class="form-control" id="sizeFilter" name="size">
+                <option value="">Все размеры</option>
+                {% for opt in options %}
+                    <option value="{{ opt }}">{{ opt }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Размер</th>
+                <th>Фото</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pattern in patterns.items %}
+                <tr>
+                    <td>{{ pattern.id }}</td>
+                    <td>{{ pattern.name }}</td>
+                    <td>{{ pattern.sizes }}</td>
+                    <td>{{ pattern.photo }}</td>
+                    <td>
+                        <a href="{{ url_for('update_pattern', pattern_id=pattern.id) }}" class="btn btn-warning btn-sm">Обновить</a>
+                        <a href="{{ url_for('delete_pattern', pattern_id=pattern.id) }}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+                </tr>
+            {% endfor %}
+        <tr>
+    <td colspan="7">
+        <a href="{{ url_for('add_pattern') }}" class="btn btn-success">Добавить новую выкройку</a>
+    </td>
+        </tr>
+        </tbody>
+    </table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% for num in patterns.iter_pages() %}
+            {% if num %}
+                <li class="page-item {% if num == patterns.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('pattern', page=num, size=request.args.get('size', ''), name=request.args.get('name', '')) }}">{{ num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+{% endblock %}

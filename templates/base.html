@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Clothing Catalog{% endblock %}</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        header {
+            background-color: #343a40; /* Dark gray header background */
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #fff !important; /* White text color for nav links */
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-light text-center py-3">
+        <h1 class="display-4">Каталог моделей одежды</h1>
+        <nav class="mt-3">
+            <ul class="nav justify-content-center">
+                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('home') }}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('model_clothing') }}">Список моделей одежды</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('pattern') }}">Список выкроек</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('model_pattern') }}">Список связей</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+   <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                {% if category == 'danger' %}
+            <div class="alert alert-danger">
+                <p>{{ message }}</p>
+            </div>
+        {% elif category == 'success' %}
+            <div class="alert alert-success">
+                <p>{{ message }}</p>
+            </div>
+        {% endif %}
+            {% endfor %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Bootstrap JS and Popper.js CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
