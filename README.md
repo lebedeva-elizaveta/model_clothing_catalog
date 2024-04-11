@@ -1,0 +1,1 @@
+# model_clothing_catalog
